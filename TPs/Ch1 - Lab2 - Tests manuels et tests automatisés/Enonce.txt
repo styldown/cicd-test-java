@@ -1,4 +1,4 @@
-- Forkez ce repos et clonnez le dans la VM java : https://github.com/Zerofiltre-Courses/cicd-testing-java-Courses
+- Forkez ce repos et clonnez le dans la VM java : https://github.com/Zerofiltre-Courses/cicd-testing-java-cours
 - Connectez vous en remote ssh à la VM java et ouvrer le repertoire de travail dans l'explorateur Vscode
 -  Lancez l"application java et tester via le navigateur.
     L'appli ecoute sur le port 8080
