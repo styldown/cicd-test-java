@@ -1,0 +1,94 @@
+1/ Installing Jenkins
+
+docker pull jenkins/jenkins
+
+docker run -u root --name jenkins-launch1 -p 8080:8080 -p 50000:50000 
+-v jenkins_launch1:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:latest
+ 
+ 
+2/ Congiguration
+
+a/ Création de credentials DockerHub et GitHub
+
+Manage Jenkins 
+	=> Manage credentials => Survoler globals => flèche déroulante => Add Credentials
+	Kind = Username with password
+	
+	Ajouter vos identifiants GitHub et valider
+	
+	Dans le menu de gauche, cliquer sur Add Credentials: => Ajouter vos identifiants DockerHub
+	
+
+b/ Configuration maven et Docker
+
+Prérequis plugin maven et Docker
+
+Manage Jenkins => Global Configuration tool => Add Docker instllation => install automatically : MavenLatest
+Manage Jenkins => Global Configuration tool => Add Maven instllation => install automatically : DockerLatest
+
+	
+c/ Configurer SonarQube
+
+	i/ Plugin installation + SonarQube Server
+	http://localhost:9000/documentation/analysis/jenkins/
+	
+	Adresse host depuis docker = host.docker.internal
+	
+	iii/ Indiquer la clé du projet sonar
+	<sonar.projectKey>tech.zerofiltre.testing:calculator</sonar.projectKey>
+	
+	iv/ Configurer un webhook de retour vers Jenkins
+	
+	Administration > Configuration > Webhooks
+	
+	http://localhost:9000/documentation/project-administration/webhooks/
+	
+	http://host.docker.internal:8080/sonarqube-webhook/
+	
+d/ Configurer l'envoi d'email:
+
+Installer le plugin Email extension Plugin
+
+Configuration:
+
+Serveur SMTP: smtp.gmail.com
+Port: 587
+
+Use TLS
+
+Use less secure App in gmail
+
+b/ Création d'un pipeline
+
+Multi-branch pipeline
+
+Entrer l'url de votre projet GIT
+Laisser les autres configurations par défaut
+
+Enregistrer.
+Le piepline va échouer car aucun fichier Jenkinsfile n'existe dans notre projet.
+
+
+3/ Ecriture du pipeline (PENSER à remplacer main par master et ready par develop)
+
+SE DEPLACER SUR LA BRANCHE m2ch4
+
+Référence des variables Jenkins: https://opensource.triology.de/jenkins/pipeline-syntax/globals
+
+
+
+
+5/ Fusioner la branche m2ch4 avec la branche develop
+
+git checkout develop
+
+git pull -r
+
+git checkout m2ch4
+
+git rebase develop
+
+git checkout develop
+
+git merge --no-ff m2ch4
+

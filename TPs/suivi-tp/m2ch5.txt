@@ -1,0 +1,39 @@
+1/ Mettre en PROD Manuellement 
+
+a/ Comprendre le modèle de branching Gitflow
+
+https://nvie.com/posts/a-successful-git-branching-model/
+
+b/ Appliquer: 
+
+Se déplacer sur la branche m2ch5 puis :
+
+	- Créer une branche de realease à partir de develop
+
+		git checkout -b release-0.1.0 develop
+
+		git push -u origin release-0.1.0
+	
+		
+		
+	- Oups il y'a un bug/manquement dans le pipeline:
+	
+		Les branches release-* hotfix-* doivent être déployées en UAT autant que develop
+	
+		Corriger => créer un commit, pousser => merger sur develop afin que les autres équipes qui developpent en parralèle 
+		puisse prendre les modifications en compte
+		
+
+	- Se déplacer sur main et fusionner la release, créer un tag, puis pousser en PROD
+	
+		git checkout master
+		git merge --no-ff release-0.1.0
+		
+		git push
+		
+		git tag -a v0.1.0 -m "Very first release of Calculator"
+		
+		git push origin --tags
+		
+	- Corriger un bug en prod
+		Qui veut essayer ?

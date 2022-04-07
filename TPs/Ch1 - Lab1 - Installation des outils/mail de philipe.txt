@@ -1,0 +1,79 @@
+0/ Prérequis
+
+
+----------- Git / GitHub: -----------
+
+sudo yum install git
+git --version  (pour vérifier l'installation)
+
+Eventuellement créer un compte sur github.com si vous n'en avez pas un
+
+Générer un Personal Access token:
+
+User ==> settings ===> glisser tout en bas à gauche: Developer Settings
+==> Personal Access Token ===> donner un nom au token (Ex: Centos AWS for CICD) ===>
+Générer le token, le copier et le GARDER JALOUSEMENT!!!
+
+
+----------- Java 11 : -----------
+
+
+sudo yum install java-11-openjdk-devel
+
+java version (pour vérifier l'installation)
+
+
+----------- Maven: -----------
+
+sudo yum install maven
+mvn --version (pour vérifier l'installation)
+
+Forcer maven à utiliser java 11
+
+sudo alternatives --config java (puis taper 1 + entrer)
+
+sudo alternatives --config javac (puis taper 1 + entrer) : Ce n'est pas une repétition, il y'a un 'c' après java
+
+
+
+- Créer un compte sur Docker Hub :  https://hub.docker.com/ si vous n'en avez pas un
+
+
+A faire sur la machine locale
+
+- Installer cmder (Emulateur de console Linux pour windows):
+
+https://cmder.net/ ==> Download mini
+
+
+    Unzip
+    (optional)Placer le chemin de l'exécutable (le dossier bin) dans le path
+
+    Lancer (Cmder.exe)
+
+
+
+- Installer VS code en local
+https://code.visualstudio.com/docs/?dv=win
+
+
+Installer l'extension : Remote SSH de Microsoft
+
+Puis : Ctrl + shift+ P
+
+remote-ssh ==> entrer
+
+username@host ==> entrer
+
+Choisissez 'linux' si le choix est demandé
+
+coller le mot de passe ==> entrer
+
+Open folder (ouvrir un dossier): Entrer les memes infos de connexion si de nouveau demandé
+
+
+Installer l'extensions: Extension Pack for JAVA (Ne télécharger aucune JDK en local)
+
+- Installation de fileZilla pour la copie facile de certains fichiers vers le PC local
+
+https://filezilla-project.org/download.php?type=client#close

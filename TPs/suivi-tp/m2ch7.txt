@@ -1,0 +1,188 @@
+
+
+1/ Préparer les machines distantes
+
+
+
+a/ Démarrer 2 machine linux
+
+
+i/
+docker run -it --name mysql-alpine-dev --rm alpine-ssh-server
+
+docker run -it --name mysql-alpine-uat --rm alpine-ssh-server
+
+Pour chacune des machines:
+
+Modifier le mot de passe root:
+
+	passwd 
+	my-secret-pw
+
+
+
+Démarrez le service ssh: 
+
+/etc/init.d/sshd restart
+
+
+Vérifier l'état du service SSH
+
+netstat -atunp 
+Si aucun service n'est en mode LISTEN sur le port 22 alors redémarrez
+
+
+Noter l'adresse IP de l'interface eth0: 
+ifconfig
+
+172.17.0.4
+
+172.17.0.5
+
+
+
+============ (pas nécessaire sauf si vous partez d'une machine alpine simple) ===========
+
+b/ Install OpenSSH et ses outils pour la communication via SSH  
+
+apk add python3
+apk add openssh
+apk add nano
+
+
+c/ Démarrer le serveur ssh: 
+
+	apk add openrc
+
+	rc-update add sshd
+	
+	/etc/init.d/sshd start
+
+	touch /run/openrc/softlevel
+
+	/etc/init.d/sshd start
+
+	rc-status
+
+	netstat -atunp
+
+	--
+	nano /etc/ssh/sshd_config
+
+	Append (a)
+
+	PermitRootLogin Yes
+
+	exit(esc) => :wq
+
+	/etc/init.d/sshd restart
+	--
+
+Modifier le mot de passe root:
+
+	passwd 
+	my-secret-pw
+
+========================================================
+
+
+
+======== Pas nécessaire, je l'ai utilisée pour sauvegarder les machines déjà configurées ==================
+
+c/ Clone the previously created machine for the second machine
+
+docker commit d3e616f327a4 alpine-ssh-server
+
+
+docker tag alpine-ssh-server imzerofiltre/alpine-ssh-server
+
+docker push imzerofiltre/alpine-ssh-server
+
+=================================================
+
+
+
+
+2/ Préparer la machine de contrôle
+
+
+a/ Démarrer une machine linux
+
+docker run -it --name ansible-controller alpine
+
+
+
+
+b/ Install OpenSSH for SSH comminucation between the remote and the controller
+
+	apk add openssh
+	
+	
+
+Ajouter les clés de chaque machine en tant que serveurs connus
+
+ssh @IP machine distante
+
+
+c/ Générer une paire de clé privé/publique à utiliser en lieu et place du mot de passe
+
+
+	
+	ssh-keygen
+	(Utiliser les valeurs par défaut en tapant juste entrer jusqu'à la fin)
+
+
+c/ Importer la clé publique SSH de la machine de contrôle:
+
+	ssh-copy-id @IP machine distante
+	
+	ssh @IP machine distante	=> désormais plus de clé demandée.
+
+b/ Installer Ansible
+
+	apk add ansible
+
+	Vérifier l'installation avec: 
+
+	ansible --version
+	
+	
+	
+
+d/ Définissions l'inventaire (inventory)
+
+apk add nano
+
+mkdir /etc/ansible 
+nano /etc/ansible/host
+
+
+[database]
+172.17.0.9
+172.17.0.10
+
+
+Ecrire le playbook
+
+nano /etc/ansible/install-db.yaml
+
+- name: install db servers play
+  hosts: databases
+  tasks:
+  - name: Install server and client
+    command: apk add mysql mysql-client
+
+  - name: Pause 10 seconds for installation process to finish
+    pause: seconds=10
+
+  - name: Setup database
+    command: /etc/init.d/mariadb setup
+
+  - name: Start the server
+    command: /etc/init.d/mariadb start
+
+
+
+Démarrer le playbook :
+
+ansible-playbook -i /etc/ansible/host /etc/ansible/install-db.yaml

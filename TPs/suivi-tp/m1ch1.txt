@@ -1,0 +1,103 @@
+0/ Prérequis
+
+Git for windows : https://git-scm.com/download/win
+
+(Eventuellement créer un compte sur github.com)
+
+Maven 3 : https://maven.apache.org/download.cgi
+
+Intellij IDEA Community Edition : https://www.jetbrains.com/idea/download/#section=windows
+
+Docker Desktop : https://docs.docker.com/desktop/
+
+Pour Windows : https://docs.docker.com/desktop/windows/install/
+PRérequis : https://docs.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
+
+créer un compte sur Docker Hub :  https://hub.docker.com/
+
+Client : Mysql workbench
+
+https://dev.mysql.com/downloads/file/?id=505953
+
+
+1/ Tests manuels
+
+Créer un "Fork" du projet: https://github.com/Zerofiltre-Courses/cicd-testing-java-cours.git
+
+Se déplacer sur la branche m1ch1
+
+
+Exécuter le projet: 
+
+	mvn clean package 
+	java -jar target\calculator.jar
+	
+	
+Tester manuellement:
+
+http://localhost:8080
+
+
+2/ Tests automatisés
+
+Test automatisés:
+
+Ajouter les dépendances pour les tests automatisés
+
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>3.7.1</version>
+		</dependency>
+		
+
+Executer automatiquement les tests:
+
+mvn test
+
+3/ Initialiser les branches git pour les environnements
+
+On va considérer m1ch1 comme la branche originelle du code et c'est de là que nous créerons l'arborescence de branches.
+
+PROD ==> Pour la prod : git checkout -b main m1ch1
+
+UAT ==> Pour les tests d'acceptance utilisateur avec le métier : git checkout -b develop main
+
+DEV ==> Pour les développeurs traivallant sur des fontionnalités : git checkout -b <nom_de_la_feature> develop
+
+
+/!\ Après avoir créé les branches, expliquer le processus git avec le quel nous allons travailler
+
+i/ commit et push des modifications sur m1ch1
+
+git commit <message>
+git push
+
+
+ii/ Se déplacer sur m1ch1 
+-----------------------------------------
+
+git checkout develop 
+git pull
+
+git checkout m1ch1
+
+git rebase develop <===== Récupérer les commit des autres développeurs qui sont déjà develop (prêts)
+
+git checkout develop 
+
+git merge --no-ff m1ch1  <======== après les test en succès
+
+git push -u origin develop
+
+
+
+
+
+

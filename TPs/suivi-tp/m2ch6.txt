@@ -1,0 +1,115 @@
+1/ Installation de PostgreSQL
+
+docker run -d --name calculator-psql    -p 5433:5432    -e POSTGRES_DB=calculator      -e POSTGRES_PASSWORD=mysecretpassword postgres
+
+docker run -d --name calculator-psql-dev   -p 5434:5432    -e POSTGRES_DB=calculator      -e POSTGRES_PASSWORD=mysecretpassword postgres
+
+docker run -d --name calculator-psql-uat   -p 5435:5432    -e POSTGRES_DB=calculator      -e POSTGRES_PASSWORD=mysecretpassword postgres
+
+docker run -d --name calculator-psql-prod   -p 5436:5432    -e POSTGRES_DB=calculator      -e POSTGRES_PASSWORD=mysecretpassword postgres
+	
+Le téléchargement de Postgres se fera automatiquement
+
+
+1/ Installation mySQL
+
+a/ Serveur 
+
+docker run -d  --name calculator-mysql -p 3306:3306 -e MYSQL_DATABASE=calculator -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql 
+
+docker run -d  --name calculator-mysql-dev -p 3307:3306 -e MYSQL_DATABASE=calculator -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql
+
+docker run -d  --name calculator-mysql-uat -p 3308:3306 -e MYSQL_DATABASE=calculator -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql
+
+docker run -d  --name calculator-mysql-prod -p 3309:3306 -e MYSQL_DATABASE=calculator -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql
+
+b/ Client : Mysql workbench
+
+https://dev.mysql.com/downloads/file/?id=505953
+
+
+
+
+
+
+
+2/ Générer la différence entre les différentes bases (lorsque vous faite un commit avec git, vous soumettez une différence)
+
+	- Se déplacer sur la branche : m2ch6_1
+		
+	- Lancer l'application en local
+	- 1 table sera générée dans la base de données locale
+	- Créer des données dans la bd locale et les appliquer dans la bd de dev en exécutant des opérations sur l'application locale
+	- Générer la différence entre la base locale et la base de données et celle de dev
+
+
+
+
+mvn liquibase:diff -Pdev\
+ -Dliquibase.url="jdbc:mysql://localhost:3307/calculator?serverTimezone=UTC"\
+ -Dliquibase.username="root"\
+ -Dliquibase.password="my-secret-pw"\
+ -Dliquibase.referenceUrl="jdbc:mysql://localhost:3306/calculator?serverTimezone=UTC"\
+ -Dliquibase.referenceUsername="root"\
+ -Dliquibase.referencePassword="my-secret-pw"
+
+		-----------------------------------------------------------------------
+
+		Si des soucis de génération pour file not found, créer des fichiers .keep dans les dossiers vides.
+
+		Un fichier de changelog est généré dans le dossier dev.
+		
+		- appliquer les changements
+
+mvn liquibase:update -Pdev\
+ -Dliquibase.url="jdbc:mysql://localhost:3307/calculator?serverTimezone=UTC"\
+ -Dliquibase.username="root"\
+ -Dliquibase.password="my-secret-pw"
+ 
+ 
+
+
+
+
+
+3 - Modifier le schéma de la BD et générer de nouveau les différences puis appliquer à dev
+
+	- Se placer sur la branche m2ch6_2
+	
+	- Générer la différence
+	
+	- Appliquer la différence
+	
+	
+	
+	
+	
+	
+
+4 - Intégration au pipeline afin d'appliquer automatiquement la différence lors du démarrage.
+
+
+	Se placer sur la branche m2ch6
+	
+	Générer la diff avec les bd UAT
+	
+mvn liquibase:diff -Puat\
+ -Dliquibase.url="jdbc:mysql://localhost:3308/calculator?serverTimezone=UTC"\
+ -Dliquibase.username="root"\
+ -Dliquibase.password="my-secret-pw"\
+ -Dliquibase.referenceUrl="jdbc:mysql://localhost:3306/calculator?serverTimezone=UTC"\
+ -Dliquibase.referenceUsername="root"\
+ -Dliquibase.referencePassword="my-secret-pw"
+ 
+ 
+	Générer la diff avec la bd PROD
+	
+mvn liquibase:diff -Puat\
+ -Dliquibase.url="jdbc:mysql://localhost:3309/calculator?serverTimezone=UTC"\
+ -Dliquibase.username="root"\
+ -Dliquibase.password="my-secret-pw"\
+ -Dliquibase.referenceUrl="jdbc:mysql://localhost:3306/calculator?serverTimezone=UTC"\
+ -Dliquibase.referenceUsername="root"\
+ -Dliquibase.referencePassword="my-secret-pw"
+	
+Pousser les changements et mettre en PROD tel que vu au chapître précédent

@@ -1,0 +1,118 @@
+1/ Sonar
+
+Logiciel qui s'appuie sur un ensemble de scanner , propres à chaque techno pour collecter les métriques de code
+
+et les publier pour exploitation sur dans interface graphique
+
+Schéma:
+
+
+2/ Installation du serveur en local:
+
+a/ Récupérer l'image du serveur sonar
+
+https://hub.docker.com/_/sonarqube/
+
+docker pull sonarqube
+
+b/ Démarrer le serveur sonar:
+
+docker run --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest
+
+default credentials:
+admin/admin
+
+
+3/ Collecter des métriques et les publier
+
+SonnarScanner disponibles par défaut:
+
+https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
+
+Nous travaillons avec maven, nous nous intéressons au scanner de maven
+
+https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/
+
+
+
+a/ Définir un fichier de configurations maven propre au projet
+
+.m2/settings.xml
+
+
+b/  Télécharger le Token d'authentification afin de se connecter au serveur et y publier les résultats
+
+Adminitration > Security > Users > Token
+
+Copier et sauvegarder!
+
+f79fce4b0ceb309ae8691993a76f27366aa093ff
+
+
+C/ Lancer l'analyse en spécifiant l'emplacement du fichier de configurations
+
+mvn sonar:sonar -s .m2/settings.xml -Dsonar.login=<token>
+
+
+
+d/ Corrigeons quelques bugs signalés
+
+
+
+
+e/ Définition des seuils
+
+Quality Gate = Seuil de métriques au delà des quelles le code n'est pas considéré comme de qualité
+
+Quality Profile = Ensemble de règle définissant, pour un langage précis quelles sont erreurs à détecter
+
+Nous allons utiliser les Quality profile et Quality Gate par défaut définis par Sonar
+
+
+
+f/ Définir les taux de couverture avec Jacoco dans le projet
+
+Echec du Quality Gate car le % de tests est < 80 %
+
+Documentation: https://www.jacoco.org/jacoco/trunk/doc/maven.html
+
+Ajouter le plugin à notre projet:
+
+    <plugin>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.8.2</version>
+    </plugin>
+	
+Les plugins maven fonctionnent grâce à des exécutions, qui peuvent être rattachées à des phases du cycle de vie maven.
+Ex si la phase test est rattachée à l'exécution génération de rapport, alors les rapports seront générés juste après la phase de tests.
+Si l'exécution n'est pas rattachée à une phase alors elle s'exécute quelque soit la phase en cours.
+
+
+		<executions>
+            <execution>
+                <goals>
+                    <goal>prepare-agent</goal>
+                </goals>
+            </execution>
+            <!-- attached to Maven test phase -->
+            <execution>
+                <id>report</id>
+                <phase>test</phase>
+                <goals>
+                    <goal>report</goal>
+                </goals>
+            </execution>
+        </executions>
+		
+		
+
+Exécuter les tests:
+
+mvn test puis ouvrir le fichier : target\site\index.html
+
+Pousser de nouveau les métriques vers le serveur Sonar: mvn sonar:sonar -s .m2/settings.xml -Dsonar.login=<token>
+
+Les taux globaux et du nouveau code s'affichent désormais.
+
+

@@ -1,0 +1,70 @@
+1/ Création des configurations par profil
+
+Port:
+
+DEV: 8090 (par défaut)
+UAT : 8091 
+PROD : 8092
+
+Avec Spring-boot, les propriétés propres au profil se définissent dans des fichiers: application-<profile name>.yml
+
+application-uat.yml
+application-prod.yml
+
+
+Démarrer l'application en CMD et démontrer qu'en fonction de l'environnement défini, on démarre sur un port différent:
+
+mvn clean package -DskipTests
+
+java -jar -Dspring.profiles.active=dev|uat|prod target\calculator.jar 
+
+
+2/ Déploiement manuel pour chaque environnement
+
+
+a/ Configuration de Docker
+
+Pas de serveurs donc nous allons utiliser des containers (Pas des machines virtuelles)
+
+Overview Dockerfile
+
+Configuration de l'image Docker via le Dockerfile
+
+
+Externaliser entrypoint.sh afin d'avoir plus de maléabilité
+
+
+Lancer l'application pour chaque environnement
+
+
+
+Sur la branche actuelle: m1ch3
+
+mvn sonar:sonar -s .m2/settings.xml -Dsonar.login=<token>  ==> est ce OK ?
+
+Empaquetter l'application a containeuriser
+
+docker build -t calculator-demo:1.0.0 .
+
+docker run --name calculator-demo --env SPRING_ACTIVE_PROFILES=dev  calculator-demo:dev
+
+
+
+Si tout est OK, on fait une fusion avec la branche ready et l'on contruit/exécute l'image pour l'uat
+
+mvn sonar:sonar -s .m2/settings.xml -Dsonar.login=<token>  ==> est ce OK ?
+
+docker build -t calculator-demo:uat
+
+docker run --name calculator-demo --env SPRING_ACTIVE_PROFILES=uat  calculator-demo:uat
+
+
+
+
+si tout est OK, on fait une fusion avec main et l'on construit exécute l'image pour la PROD
+
+mvn sonar:sonar -s .m2/settings.xml -Dsonar.login=<toke>  ==> est ce OK ?
+
+docker build -t calculator-demo:prod
+
+docker run --name calculator-prod --env SPRING_ACTIVE_PROFILES=prod  calculator-demo:prod
