@@ -5,7 +5,7 @@ On va utiliser Sonarkube. Ca sous entend l'installation du serveur sonar et la c
 Tapez la commande suivante : 
 
 ```
-docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest
+docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:lts
 ```
 
 Il y aura téléchargement de l'image docker, ensuite lancement du conteneur. Il sera en écoute sur le port **9000** de l'IP machine.
