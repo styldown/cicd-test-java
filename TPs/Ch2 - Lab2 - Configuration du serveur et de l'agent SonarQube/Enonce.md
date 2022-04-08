@@ -7,7 +7,7 @@ Il faudra récupérer son IP machine. SI vous êtes sur AWS, il faudra prendre l
 ![Launch SonarQube](Images/Accès%20à%20sonarQube.png)
 
 Les credentials par defaut sont **admin/admin**, il faudra changer le mot de passe initial. Mettre **My_pa55word** pour ne pas trop chercher après.
-![Launch SonarQube](Images/Sonar_update_password.png)
+![Launch SonarQube](Images/Sonar_update_password.PNG)
 
 Une fois les crédentials validés, on a l'interface de Sonar qui apparait : 
 
@@ -28,7 +28,7 @@ Sur notre projet nous allons le faire la branche **m1ch2**.
 ```
 git checkout m1ch2
 ```
-![checkout_m2ch2_branch](Images/checkout_m2ch2_branch.png)
+![checkout_m2ch2_branch](Images/checkout_m2ch2_branch.PNG)
 
 Création du fichier **.m2/settings.xml**
 
