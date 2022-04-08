@@ -3,6 +3,8 @@
 L'idée ici est de créer une image docker de notre application et de lancer chaque environnement (dev, uat, pod) dans un conteneur dédié.
 On peut le faire sur n'importe quelle machine qui comporte docker. Nous allons la faire sur notre VM AWS qui contient docker installé.
 
+Il faudrait télécharger 
+
 Sur la branche actuelle **m1ch3**, lancer le scan sonar
 
 ```
