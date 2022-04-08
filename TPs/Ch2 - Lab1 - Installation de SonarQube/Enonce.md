@@ -1,8 +1,10 @@
 # Installation de SonarQube
-On va utiliser Sonarkube. Ca sous entend l'installation du serveur sonar et la configuration de l'agent Sonar
+On va utiliser **Sonarkube**. Celà sous entend l'installation du serveur sonar et la configuration de l'agent Sonar. L'architecture de sonar est la suivante : 
+
+![Archi SonarQube](Images/archi%20sonar.PNG)
 
 ### Démarrage du serveur sonar conteneurisé :
-Tapez la commande suivante : 
+Tapez la commande suivante sur la VM aws: 
 
 ```
 docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:lts
