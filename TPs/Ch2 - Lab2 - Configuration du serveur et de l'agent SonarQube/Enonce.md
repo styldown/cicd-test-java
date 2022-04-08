@@ -60,11 +60,11 @@ Dans mon cas, le token est le suivant : **17e3dcd113bc290f04d710f0232ccf4ceef427
 
 A présent, nous pouvons lancer le scan avec la commande suivante
 ```
-mvn sonar:sonar -s .m2/settings.xml -Dsonar.login=<token>
+mvn sonar:sonar -s .m2/settings.xml "-Dsonar.login=<token>"
 ```
 En mettant le token, j'ai ceci dans mon cas : 
 ```
-mvn sonar:sonar -s .m2/settings.xml -Dsonar.login=2f7ce612b0144be4946ec91cb31f55a29cf35a76
+mvn sonar:sonar -s .m2/settings.xml "-Dsonar.login=2f7ce612b0144be4946ec91cb31f55a29cf35a76"
 ```
 ![scan_launching_1](Images/scan_launching_1.png)
 ![scan_launching_2](Images/scan_launching_2.png)
@@ -79,6 +79,6 @@ projet calculator
 
 Cependant, on s'apperçoit qu'on a 0% de couverture du code et le scan passe tout de même. celà est lié au fait que sonnar se base sur des **Quality Gates** et des **Quality Profiles**. C'est simplement des sortes de seuils configurés pour définir si un scan est valide ou pas.
 ![quality_gates](Images/quality_gates.png)
-Le profil actuel par defaut es **Sonar way**. 
+Le profil actuel par defaut est **Sonar way**. 
 
 On va tenter de corriger ce soucis de **0% de couverture** dans le prochain TP

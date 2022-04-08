@@ -24,9 +24,15 @@ Le fichier jar est créé dans le répertoire target du projet.
 ![jar_file.png](images/jar_file.png)
 
 On va le lancer en dev avec la commande suivante : 
-```
-java -jar "-Dspring.profiles.active=dev" target\calculator.jar
-```
+- Sous windows
+    ```
+    java -jar "-Dspring.profiles.active=dev" target\calculator.jar
+    ```
+
+- Sous Linux     
+    ```
+    java -jar "-Dspring.profiles.active=dev" target/calculator.jar
+    ```
 ![launch_app_dev.png](images/launch_app_dev.png)
 
 Pour lancer sur l'uat ou la prod, il suffit de changer l'environnement dans la commande, tel que : 
