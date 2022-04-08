@@ -6,7 +6,7 @@
 Il faudra récupérer son IP machine. SI vous êtes sur AWS, il faudra prendre l'IP publique de votre machine
 ![Launch SonarQube](Images/Accès%20à%20sonarQube.png)
 
-Les credentials par defaut sont **admin/admin**, il faudra changer le mot de passe initial. Pour ne pas trop chercher après, mettre **My_pa55word**
+Les credentials par defaut sont **admin/admin**, il faudra changer le mot de passe initial. Mettre **My_pa55word** pour ne pas trop chercher après.
 ![Launch SonarQube](Images/Sonar_update_password.png)
 
 Une fois les crédentials validés, on a l'interface de Sonar qui apparait : 
