@@ -3,9 +3,16 @@
 L'idée ici est de créer une image docker de notre application et de lancer chaque environnement (dev, uat, pod) dans un conteneur dédié.
 On peut le faire sur n'importe quelle machine qui comporte docker. Nous allons la faire sur notre VM AWS qui contient docker installé.
 
-Il faudrait cloner notre repos git de travail. 
+Il faudrait cloner notre repos git de travail.  et relancer le build de l'application sans faire les tests : 
 
-Sur la branche actuelle **m1ch3**, lancer le scan sonar
+Sur la branche **m1ch3_OK**
+```
+git checkout m1ch3_OK
+mvn clean package -DskipTests
+```
+
+
+Lancer le scan sonar
 
 ```
 mvn sonar:sonar -s .m2/settings.xml -Dsonar.login=<token> 
