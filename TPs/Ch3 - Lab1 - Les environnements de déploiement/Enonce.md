@@ -36,7 +36,7 @@ On va le lancer en dev avec la commande suivante :
 ![launch_app_dev.png](images/launch_app_dev.png)
 
 Pour lancer sur l'uat ou la prod, il suffit de changer l'environnement dans la commande, tel que : 
-> java -jar "-Dspring.profiles.active=**uar|prod**" target\calculator.jar
+> java -jar "-Dspring.profiles.active=**uat|prod**" target\calculator.jar
 
 A présent on peut tester l'application dans le navigateur
 ![navi_launch_app_dev.png](images/navi_launch_app_dev.png)
