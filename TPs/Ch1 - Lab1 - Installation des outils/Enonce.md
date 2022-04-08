@@ -21,6 +21,9 @@ La machine de TP doit etre suffisament robuste. Nous recommandons une VM avec le
       -  **3306-3310**
       -  **80** (http par defaut)
       -  **8080-8099** (port de l'application)
+
+    - Balises de la VM : 
+      - Name: <votre_prenom>
 ## Installer firefox         
 **Firefox** est un prérequis pour certains tests faits dans le projet. Il faudrait installer ce navigateur afin que les test passent.
 
